@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafio Gardunha 2027</title>
+<meta name="description" content="Desafio Strava Gardunha 2027 — 24 segmentos, 5 treinos, 1 coroa. Submete o teu check-in e acompanha a classificação ao vivo.">
+<meta property="og:title" content="Desafio Gardunha 2027">
+<meta property="og:description" content="24 Segmentos · 5 Treinos · 1 Coroa">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛰️</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Karla:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --ink: #1C1A17; --ivory: #F4EFE6; --white: #FFFFFF; --terracotta: #C1502E;
+    --pine: #2F4A3C; --muted: #6B6558; --border: #E2DACB; --gold: #B8892B;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #F4EFE6; --ivory: #1B1916; --white: #26231E; --border: #43403A; --muted: #AFA89A; --gold: #D9AE4F; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ivory); color: var(--ink); font-family: 'Karla', sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 24px 80px; }
+  .eyebrow { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 4px; color: var(--terracotta); text-transform: uppercase; text-align: center; margin: 0; }
+  h1 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: clamp(40px, 11vw, 56px); letter-spacing: 1px; text-align: center; margin: 8px 0 4px; }
+  .tagline { text-align: center; color: var(--muted); font-size: 17px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 40px; }
+  .cta-row { display: flex; justify-content: center; margin-bottom: 40px; }
+  .cta { font-family: 'Oswald', sans-serif; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 17px; background: var(--terracotta); color: #FFF; text-decoration: none; border-radius: 12px; padding: 18px 36px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 18px 16px; text-align: center; }
+  .kpi b { display: block; font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; line-height: 1.1; }
+  .kpi span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .kpi small { color: var(--muted); font-size: 16px; }
+  section { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  h2 { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600; margin: 0 0 16px; }
+  .empty { color: var(--muted); font-size: 15px; line-height: 1.5; }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td.wrap-cell { white-space: normal; }
+  th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.top1 td:first-child { color: var(--gold); font-weight: 700; }
+  .pts { font-weight: 700; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; margin-left: 6px; vertical-align: 1px; }
+  .b-roubo { background: var(--terracotta); color: #fff; }
+  .b-abs { background: var(--gold); color: #1C1A17; }
+  .b-treino { background: var(--pine); color: #fff; }
+  .updated { font-size: 12px; color: var(--muted); margin-top: 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid2 section { margin-bottom: 0; }
+  .feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .feed li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.4; }
+  .feed li:last-child { border-bottom: 0; }
+  .feed .meta { color: var(--muted); font-size: 12px; }
+  .tip-list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; }
+  .tip-list li::marker { color: var(--terracotta); font-weight: 700; }
+  code { background: var(--ivory); border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; font-size: 13px; }
+  details summary { cursor: pointer; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] summary { margin-bottom: 16px; }
+  .links-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+  .links-row a { color: var(--ink); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 640px) {
+    .wrap { padding: 40px 16px 64px; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .grid2 { grid-template-columns: 1fr; gap: 16px; }
+    section { padding: 22px 18px; }
+    th, td { padding: 9px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Desafio Strava</p>
+  <h1>GARDUNHA 2027</h1>
+  <p class="tagline">24 Segmentos · 5 Treinos · 1 Coroa</p>
+
+  <div class="cta-row">
+    <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfbHPo7oAYyIG4Lu26I-uEhHXp2y3EIw15JdX2sli1UjcevpA/viewform" target="_blank" rel="noopener">Submeter Check-in</a>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><b id="k-atletas">–</b><span>Atletas</span></div>
+    <div class="kpi"><b id="k-checkins">–</b><span>Check-ins</span></div>
+    <div class="kpi"><b><span id="k-segs" style="font-size:inherit;color:inherit;letter-spacing:0">–</span><small>/24</small></b><span>Segmentos com dono</span></div>
+    <div class="kpi"><b id="k-roubos">–</b><span>Coroas roubadas</span></div>
+  </div>
+
+  <section>
+    <h2>Classificação Geral</h2>
+    <div class="scroll">
+      <table id="ranking">
+        <thead><tr><th>Pos.</th><th>Atleta</th><th class="num">Pontos</th><th class="num">Segm.</th><th class="num">Coroas</th><th class="num">Roubos</th></tr></thead>
+        <tbody><tr><td colspan="6" class="empty">A carregar classificação…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="updated" id="updated"></p>
+  </section>
+
+  <div class="grid2">
+    <section>
+      <h2>👑 Donos das Coroas</h2>
+      <div class="scroll">
+        <table id="coroas">
+          <thead><tr><th>Segmento</th><th>Atleta</th><th class="num">Tempo</th></tr></thead>
+          <tbody><tr><td colspan="3" class="empty">–</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>Últimos Check-ins</h2>
+      <ul class="feed" id="feed"><li class="empty">–</li></ul>
+    </section>
+  </div>
+
+  <section style="margin-top:24px">
+    <details>
+      <summary>💡 Como obter o link da atividade (no telemóvel) ▾</summary>
+      <ol class="tip-list">
+        <li>Abre a app Strava e entra na atividade em concreto (não a lista, a atividade já aberta).</li>
+        <li>Confirma que a atividade está visível a "Todos" ou ao clube — não "Só eu".</li>
+        <li>Toca no ícone de partilha (uma seta, no topo ou no canto da atividade).</li>
+        <li>Escolhe <strong>"Copiar Link"</strong> (às vezes aparece depois de tocares em "Mais").</li>
+        <li>Cola o link (algo como <code>strava.com/activities/1234567890</code>) no campo do formulário.</li>
+      </ol>
+    </details>
+  </section>
+
+  <div class="links-row">
+    <a href="https://claude.ai/artifact/4Dz6YuiZwkE9yPpP1ynqMY" target="_blank" rel="noopener">Regulamento Oficial</a>
+    <a href="https://claude.ai/artifact/CbHZY5E17UdbWArPqLWgNX" target="_blank" rel="noopener">Apresentação do Desafio</a>
+  </div>
+</div>
+
+<script>
+/* ===== CONFIGURAÇÃO ===== */
+// Link CSV da aba "Público" (Ficheiro → Partilhar → Publicar na Web → Público → CSV)
+const CSV_URL = "COLAR_AQUI_O_LINK_CSV";
+// Fecho de contas (Art. 7.3). Check-ins com data posterior não contam.
+const FECHO = new Date("2027-12-15T23:59:59");
+
+/* ===== Pontuação (Regulamento, Art. 4–6) ===== */
+const PODIO = [10, 7, 5];        // 4.2
+const CHECKIN = 2;                // 4.3
+const COMPLETISMO = [[24, 50], [12, 20]]; // 4.4 (conta o escalão mais alto atingido)
+const TREINO = 10, MAX_TREINOS = 5; // 5.2
+const ROUBO_ANUAL = 3, ROUBO_ABS = 5; // 6.2
+
+function parseCSV(text) {
+  const rows = []; let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"' && text[i+1] === '"') { cell += '"'; i++; } else if (c === '"') q = false; else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(cell); cell = ""; }
+    else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ""; }
+    else if (c !== '\r') cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(v => v.trim() !== ""));
+}
+const esc = s => { const d = document.createElement("div"); d.textContent = s ?? ""; return d.innerHTML; };
+const norm = s => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’‘`´]/g, "'").replace(/\s+/g, " ").trim().toLowerCase();
+const cleanName = s => (s || "").replace(/\s+/g, " ").trim();
+const titleCase = s => cleanName(s).toLowerCase().replace(/(^|\s|-)(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
+
+function parseDate(s) {
+  s = (s || "").trim(); if (!s) return null;
+  let m = s.match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+  if (m) return new Date(+m[1], m[2]-1, +m[3], +(m[4]||0), +(m[5]||0), +(m[6]||0));
+  m = s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+  if (m) return new Date(+m[3], m[2]-1, +m[1], +(m[4]||0), +(m[5]||0), +(m[6]||0));
+  const d = new Date(s); return isNaN(d) ? null : d;
+}
+// "mm:ss" ou "h:mm:ss" → segundos
+function parseTime(s) {
+  const p = (s || "").trim().replace(",", ".").split(":").map(Number);
+  if (!p.length || p.some(isNaN)) return null;
+  if (p.length === 1) return p[0];
+  if (p.length === 2) return p[0]*60 + p[1];
+  return p[0]*3600 + p[1]*60 + p[2];
+}
+const fmtTime = s => { const h = Math.floor(s/3600), m = Math.floor(s%3600/60), x = Math.round(s%60);
+  return (h ? h + ":" + String(m).padStart(2,"0") : m) + ":" + String(x).padStart(2,"0"); };
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const fmtDate = d => d ? d.getDate() + " " + MESES[d.getMonth()] + " " + d.getFullYear() : "";
+
+function compute(rows) {
+  const h = rows[0].map(norm);
+  const col = (...keys) => h.findIndex(x => keys.some(k => x.includes(k)));
+  const iTs = col("carimbo"), iNome = col("nome"), iData = h.findIndex(x => x === "data"),
+        iSeg = col("segmento"), iTempo = col("tempo"), iTreino = col("treino"), iRoubo = col("roubo");
+
+  const entries = rows.slice(1).map(r => ({
+    ts: parseDate(r[iTs]), data: parseDate(r[iData]) || parseDate(r[iTs]),
+    atletaKey: norm(r[iNome]), atleta: titleCase(r[iNome]),
+    segKey: norm(r[iSeg]), seg: cleanName(r[iSeg]),
+    t: parseTime(r[iTempo]),
+    treino: norm(r[iTreino]).startsWith("sim"),
+    abs: norm(r[iRoubo]).includes("absolut"),
+  })).filter(e => e.atletaKey && e.segKey && e.t != null && e.t > 0 && (!e.data || e.data <= FECHO));
+
+  // Ordem cronológica (data da atividade, depois hora da submissão)
+  entries.sort((a, b) => (a.data - b.data) || (a.ts - b.ts));
+
+  const A = {}; // atletas
+  const ath = e => A[e.atletaKey] ??= { nome: e.atleta, pts: 0, segs: new Set(), coroas: 0, roubos: 0, abs: 0, treinos: new Set() };
+  const best = {};   // seg → atleta → melhor tempo
+  const leader = {}; // seg → {k, t}
+  const segName = {};
+  let roubosTotal = 0;
+
+  for (const e of entries) {
+    const a = ath(e);
+    segName[e.segKey] ??= e.seg;
+    a.segs.add(e.segKey);
+    if (e.treino && e.data) a.treinos.add(e.data.toDateString());
+    if (e.abs) { a.abs++; roubosTotal++; }
+    e.roubo = false;
+    const L = leader[e.segKey];
+    if (!L || e.t < L.t) {
+      if (L && L.k !== e.atletaKey) { a.roubos++; roubosTotal++; e.roubo = true; }
+      leader[e.segKey] = { k: e.atletaKey, t: e.t };
+    }
+    best[e.segKey] ??= {};
+    if (!(e.atletaKey in best[e.segKey]) || e.t < best[e.segKey][e.atletaKey]) best[e.segKey][e.atletaKey] = e.t;
+  }
+
+  for (const [seg, byAth] of Object.entries(best)) {
+    Object.entries(byAth).sort((x, y) => x[1] - y[1]).slice(0, 3)
+      .forEach(([k], i) => { A[k].pts += PODIO[i]; if (i === 0) A[k].coroas++; });
+  }
+  for (const a of Object.values(A)) {
+    a.pts += a.segs.size * CHECKIN;
+    const c = COMPLETISMO.find(([n]) => a.segs.size >= n); if (c) a.pts += c[1];
+    a.pts += Math.min(a.treinos.size, MAX_TREINOS) * TREINO;
+    a.pts += a.roubos * ROUBO_ANUAL + a.abs * ROUBO_ABS;
+  }
+  const ranking = Object.values(A).sort((x, y) =>
+    (y.pts - x.pts) || (y.segs.size - x.segs.size) || (y.coroas - x.coroas) || (y.treinos.size - x.treinos.size) || x.nome.localeCompare(y.nome));
+
+  const coroas = Object.entries(leader).map(([s, L]) => ({ seg: segName[s], nome: A[L.k].nome, t: L.t }))
+    .sort((x, y) => x.seg.localeCompare(y.seg, "pt"));
+
+  const feed = [...entries].sort((a, b) => (b.ts - a.ts) || (b.data - a.data)).slice(0, 8);
+  return { ranking, coroas, feed, checkins: entries.length, roubosTotal };
+}
+
+function render({ ranking, coroas, feed, checkins, roubosTotal }) {
+  document.getElementById("k-atletas").textContent = ranking.length;
+  document.getElementById("k-checkins").textContent = checkins;
+  document.getElementById("k-segs").textContent = Math.min(coroas.length, 24);
+  document.getElementById("k-roubos").textContent = roubosTotal;
+
+  const tb = document.querySelector("#ranking tbody");
+  let pos = 0, prev = null;
+  tb.innerHTML = ranking.length ? ranking.map((a, i) => {
+    if (a.pts !== prev) { pos = i + 1; prev = a.pts; }
+    return `<tr class="${pos === 1 ? "top1" : ""}"><td>${pos}º</td><td>${esc(a.nome)}</td><td class="num pts">${a.pts}</td><td class="num">${a.segs.size}</td><td class="num">${a.coroas}</td><td class="num">${a.roubos + a.abs}</td></tr>`;
+  }).join("") : '<tr><td colspan="6" class="empty">Ainda não há check-ins registados.</td></tr>';
+
+  document.querySelector("#coroas tbody").innerHTML = coroas.length ? coroas.map(c =>
+    `<tr><td class="wrap-cell">${esc(c.seg)}</td><td>${esc(c.nome)}</td><td class="num">${fmtTime(c.t)}</td></tr>`).join("")
+    : '<tr><td colspan="3" class="empty">Nenhuma coroa atribuída ainda.</td></tr>';
+
+  document.getElementById("feed").innerHTML = feed.length ? feed.map(e =>
+    `<li><strong>${esc(e.atleta)}</strong> · ${esc(e.seg)} em <strong>${fmtTime(e.t)}</strong>` +
+    (e.roubo ? '<span class="badge b-roubo">Roubo</span>' : "") +
+    (e.abs ? '<span class="badge b-abs">Absoluta</span>' : "") +
+    (e.treino ? '<span class="badge b-treino">Treino</span>' : "") +
+    `<div class="meta">${fmtDate(e.data)}</div></li>`).join("")
+    : '<li class="empty">Ainda não há check-ins.</li>';
+
+  document.getElementById("updated").textContent = "Atualizado ao vivo · " +
+    new Date().toLocaleString("pt-PT", { dateStyle: "long", timeStyle: "short" });
+}
+
+async function load() {
+  try {
+    const res = await fetch(CSV_URL + (CSV_URL.includes("?") ? "&" : "?") + "t=" + Date.now());
+    if (!res.ok) throw new Error(res.status);
+    const rows = parseCSV(await res.text());
+    render(rows.length > 1 ? compute(rows) : { ranking: [], coroas: [], feed: [], checkins: 0, roubosTotal: 0 });
+  } catch (e) {
+    document.querySelector("#ranking tbody").innerHTML =
+      '<tr><td colspan="6" class="empty">Não foi possível carregar a classificação. Tenta recarregar a página.</td></tr>';
+  }
+}
+load();
+setInterval(load, 5 * 60 * 1000);
+</script>
+</body>
+</html>
